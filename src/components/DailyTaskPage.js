@@ -10,6 +10,8 @@ const DailyTaskPage = () => {
   const numberOfTasks = useSelector(state => state.numberOfTasks)
   const selection = useSelector(state => state.selection)
 
+  const [selectedTasks, setSelectedTasks] = React.useState([])
+
   let tasks = []
   let i;
 
@@ -17,11 +19,20 @@ const DailyTaskPage = () => {
     const cat = selection[i]
     if (cat === "Any") {
       const allTasks = [].concat.apply([], categories.map(i => i.tasks))
-      tasks.push(allTasks[0])
+      const random = Math.floor(Math.random() * allTasks.length)
+      const randomTask = allTasks[random]
+      const category = categories.find(category => category.tasks.includes(randomTask))
+      
+      tasks.push(
+        <TaskDetails key={i} task={randomTask} category={category.name} />
+      )
     } else {
       const possibleTasks = categories.find(category => category.name === cat).tasks
+      const random = Math.floor(Math.random() * possibleTasks.length)
+      const randomTask = possibleTasks[random]
+
       tasks.push(
-        <TaskDetails key={i} task={possibleTasks[0]} category={cat} />
+        <TaskDetails key={i} task={randomTask} category={cat} />
       )
     }
   }
