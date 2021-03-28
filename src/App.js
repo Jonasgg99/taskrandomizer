@@ -7,6 +7,7 @@ import {
   BrowserRouter as Router,
   Switch, Route
 } from "react-router-dom"
+import DailyTaskPage from './components/DailyTaskPage'
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/daily">
-            Today's tasks
+            <DailyTaskPage />
           </Route>
           <Route path="/">
             <SelectionPage />
