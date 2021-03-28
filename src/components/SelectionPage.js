@@ -10,6 +10,7 @@ const SelectionPage = () => {
     <Box>
       <NumberForm />
       <TaskTypeSelection />
+      <br/><br/>
       <RandomizeButton />
     </Box>
   )

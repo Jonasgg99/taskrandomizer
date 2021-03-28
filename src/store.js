@@ -1,6 +1,7 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import categoryReducer from './reducers/categoryReducer'
 
 
 const numberOfTasksReducer = (state = "3", action) => {
@@ -13,7 +14,8 @@ const numberOfTasksReducer = (state = "3", action) => {
 }
 
 const reducer = combineReducers({
-  numberOfTasks: numberOfTasksReducer
+  numberOfTasks: numberOfTasksReducer,
+  categories: categoryReducer
 })
 
 const store = createStore(
