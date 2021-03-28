@@ -1,8 +1,6 @@
 import React from 'react'
 import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl'
 import { useSelector, useDispatch } from 'react-redux';
 import { changeSelection } from '../reducers/selectionReducer'
@@ -11,10 +9,13 @@ import Box from '@material-ui/core/Box'
 const TaskTypeSelection = (props) => {
   const dispatch = useDispatch()
   const selection = useSelector(state => state.selection[props.index])
-  const [value, setValue] = React.useState("Any")
 
   const handleChange = (event) => {
+    if (event.target.value === "Add") {
+      console.log('add');
+    } else {
     dispatch(changeSelection(event.target.value, props.index))
+    }
   }
 
   const categories = useSelector(state => state.categories)
@@ -37,8 +38,9 @@ const TaskTypeSelection = (props) => {
         >
           <option value="Any">Any</option>
           {categories.map(category => 
-              <option value={category.name}>{category.name}</option>
+              <option key={category.name} value={category.name}>{category.name}</option>
           )}
+          <option value="Add">Add Category...</option>
 
         </Select>
       </FormControl>

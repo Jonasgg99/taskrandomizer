@@ -5,29 +5,14 @@ import NumberForm from './NumberForm'
 import RandomizeButton from './RandomizeButton'
 import TaskTypeSelection from './TaskTypeSelection'
 
-const SelectionBoxes = () => {
-  const numberOfTasks = useSelector(state => parseInt(state.numberOfTasks))
-
-  let i;
-  for (i=0; i<numberOfTasks; i++) {
-    console.log('for');
-    return (
-      <TaskTypeSelection />
-    )
-  }
-
-}
-
 const SelectionPage = () => {
   const numberOfTasks = useSelector(state => parseInt(state.numberOfTasks))
 
   let a = []
   let i;
   for (i=0; i<numberOfTasks; i++) {
-    console.log('for');
-    a.push(<TaskTypeSelection index={i} />)
+    a.push(<TaskTypeSelection key={i} index={i} />)
   }
-  console.log(a);
 
   return (
     <Box>

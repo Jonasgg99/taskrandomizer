@@ -1,6 +1,4 @@
 import Container from '@material-ui/core/Container'
-import RandomizeButton from './components/RandomizeButton'
-import NumberForm from './components/NumberForm'
 import SelectionPage from './components/SelectionPage'
 
 import {
