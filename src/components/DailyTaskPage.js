@@ -1,6 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Box from '@material-ui/core/Box'
+
+import List from '@material-ui/core/List'
+import TaskDetails from '../components/TaskDetails'
+
 
 const DailyTaskPage = () => {
   const categories = useSelector(state => state.categories)
@@ -17,13 +20,15 @@ const DailyTaskPage = () => {
       tasks.push(allTasks[0])
     } else {
       const possibleTasks = categories.find(category => category.name === cat).tasks
-      tasks.push(possibleTasks[0])
+      tasks.push(
+        <TaskDetails key={i} task={possibleTasks[0]} category={cat} />
+      )
     }
   }
   return (
-    <Box>
+    <List>
       {tasks}
-    </Box>
+    </List>
   )
 }
 
