@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 
-const numberOfTasksReducer = (state = 1, action) => {
+const numberOfTasksReducer = (state = "3", action) => {
   switch(action.type) {
     case 'SET_NUMBER_OF_TASKS':
       return action.data
