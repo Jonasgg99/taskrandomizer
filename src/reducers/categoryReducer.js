@@ -1,8 +1,8 @@
 
 
 const categoryReducer = (state = [
-  {name:'Training', tasks:['pullups','pushups']}, 
-  {name:'Finance', tasks:['work','apply']}], 
+  {name:'Training', tasks:['pullups','pushups','look']}, 
+  {name:'Finance', tasks:['work','apply', 'test']}], 
   action) => {
   switch(action.type) {
     default:

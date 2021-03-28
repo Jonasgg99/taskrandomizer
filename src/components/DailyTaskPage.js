@@ -10,35 +10,55 @@ const DailyTaskPage = () => {
   const numberOfTasks = useSelector(state => state.numberOfTasks)
   const selection = useSelector(state => state.selection)
 
-  const [selectedTasks, setSelectedTasks] = React.useState([])
+  const randomize = (array) => {
+    const random = Math.floor(Math.random() * array.length)
+    const selectedEntry = array[random]
 
-  let tasks = []
+    return selectedEntry
+  }
+
+  let selectedTasks = []
+
+  let tasksToShow = []
   let i;
+  let task;
 
-  for (i=0; i<numberOfTasks; i++) {
+  let array = []
+
+  for (i = 0; i < numberOfTasks; i++) {
+    array.push(i)
+  }
+
+  array.forEach(i => {
     const cat = selection[i]
     if (cat === "Any") {
       const allTasks = [].concat.apply([], categories.map(i => i.tasks))
-      const random = Math.floor(Math.random() * allTasks.length)
-      const randomTask = allTasks[random]
-      const category = categories.find(category => category.tasks.includes(randomTask))
-      
-      tasks.push(
-        <TaskDetails key={i} task={randomTask} category={category.name} />
+        .filter(i => !selectedTasks.includes(i))
+
+      task = randomize(allTasks)
+      const category = categories.find(category => category.tasks.includes(task))
+      selectedTasks.push(task)
+
+      tasksToShow.push(
+        <TaskDetails key={i} task={task} category={category.name} />
       )
     } else {
       const possibleTasks = categories.find(category => category.name === cat).tasks
-      const random = Math.floor(Math.random() * possibleTasks.length)
-      const randomTask = possibleTasks[random]
+        .filter(i => !selectedTasks.includes(i))
+      task = randomize(possibleTasks)
 
-      tasks.push(
-        <TaskDetails key={i} task={randomTask} category={cat} />
+      selectedTasks.push(task)
+
+      tasksToShow.push(
+        <TaskDetails key={i} task={task} category={cat} />
       )
     }
-  }
+  })
+
+
   return (
     <List>
-      {tasks}
+      {tasksToShow}
     </List>
   )
 }

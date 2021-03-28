@@ -13,6 +13,14 @@ const SelectionPage = () => {
   for (i=0; i<numberOfTasks; i++) {
     a.push(<TaskTypeSelection key={i} index={i} />)
   }
+  /*
+  const verifySelection = () => {
+    const trueSelection = selection.slice(0,numberOfTasks-1)
+    if (trueSelection.count(category) < category.tasks.length) {
+      return console.log('not enough tasks in category', category);
+    }
+  }
+  */
 
   return (
     <Box>
