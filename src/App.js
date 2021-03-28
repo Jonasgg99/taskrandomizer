@@ -1,6 +1,7 @@
 import Container from '@material-ui/core/Container'
 import RandomizeButton from './components/RandomizeButton'
 import NumberForm from './components/NumberForm'
+import SelectionPage from './components/SelectionPage'
 
 import {
   BrowserRouter as Router,
@@ -16,10 +17,7 @@ function App() {
             Today's tasks
           </Route>
           <Route path="/">
-            <div>Options</div>
-            <NumberForm />
-            <div>Category: number of tasks</div>
-            <RandomizeButton />
+            <SelectionPage />
           </Route>
         </Switch>
       </Router>
