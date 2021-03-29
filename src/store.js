@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import categoryReducer from './reducers/categoryReducer'
 import selectionReducer from './reducers/selectionReducer'
+import dailyTasksReducer from './reducers/dailyTasksReducer'
 
 
 const numberOfTasksReducer = (state = "3", action) => {
@@ -17,7 +18,8 @@ const numberOfTasksReducer = (state = "3", action) => {
 const reducer = combineReducers({
   numberOfTasks: numberOfTasksReducer,
   categories: categoryReducer,
-  selection: selectionReducer
+  selection: selectionReducer,
+  dailyTasks: dailyTasksReducer
 })
 
 const store = createStore(

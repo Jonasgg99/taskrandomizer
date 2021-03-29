@@ -10,6 +10,8 @@ const DailyTaskPage = () => {
   const numberOfTasks = useSelector(state => state.numberOfTasks)
   const selection = useSelector(state => state.selection)
 
+  const dailyTasks = useSelector(state => state.dailyTasks)
+
   const randomize = (array) => {
     const random = Math.floor(Math.random() * array.length)
     const selectedEntry = array[random]
