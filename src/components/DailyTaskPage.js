@@ -9,6 +9,7 @@ const DailyTaskPage = () => {
   const categories = useSelector(state => state.categories)
   const numberOfTasks = useSelector(state => state.numberOfTasks)
   const selection = useSelector(state => state.selection)
+  const tasks = useSelector(state => state.tasks)
 
   const dailyTasks = useSelector(state => state.dailyTasks)
 
@@ -25,7 +26,7 @@ const DailyTaskPage = () => {
     let task;
 
     let array = []
-
+    if (dailyTasks.length === 0) {
     for (i = 0; i < numberOfTasks; i++) {
       array.push(i)
     }
@@ -33,8 +34,10 @@ const DailyTaskPage = () => {
     array.forEach(i => {
       const cat = selection[i]
       if (cat === "Any") {
+        const test = tasks.filter(task => !selectedTasks.includes(task))
         const allTasks = [].concat.apply([], categories.map(i => i.tasks))
           .filter(i => !selectedTasks.includes(i))
+          
 
         task = randomize(allTasks)
         selectedTasks.push(task)
@@ -48,6 +51,7 @@ const DailyTaskPage = () => {
 
       }
     })
+  }
 
   useEffect(() => {
     if (dailyTasks.length === 0) {
