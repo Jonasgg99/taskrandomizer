@@ -4,17 +4,20 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 
-const CompleteButton = () => {
-  const [completed, setCompleted] = React.useState(false)
+import { completeTask } from '../reducers/dailyTasksReducer'
+import { useDispatch } from 'react-redux'
 
-  const completeTask = () => {
-    setCompleted(true)
+const CompleteButton = ({ task }) => {
+  const dispatch = useDispatch()
+
+  const handleClick = () => {
+    dispatch(completeTask(task))
   }
-  
-  if (!completed) {
+
+  if (!task.completed) {
     return (
       <Button 
-      onClick={completeTask}
+      onClick={handleClick}
       color="primary"
       variant="contained"
       >Complete</Button>
@@ -30,13 +33,13 @@ const CompleteButton = () => {
   }
 }
 
-const TaskDetails = (props) => {
+const TaskDetails = ({ task }) => {
   
   return (
     <Paper>
       <ListItem>
-        <ListItemText primary={props.task} secondary={props.category} />
-        <CompleteButton />
+        <ListItemText primary={task.name} secondary={task.category} />
+        <CompleteButton task={task} />
       </ListItem>
     </Paper>
   )

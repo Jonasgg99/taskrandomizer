@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import List from '@material-ui/core/List'
 import TaskDetails from '../components/TaskDetails'
+import { setDailyTasks } from '../reducers/dailyTasksReducer'
 
 const DailyTaskPage = () => {
   const dispatch = useDispatch()
@@ -11,7 +12,16 @@ const DailyTaskPage = () => {
   const selection = useSelector(state => state.selection)
   const tasks = useSelector(state => state.tasks)
 
-  const dailyTasks = useSelector(state => state.dailyTasks)
+  let dailyTasks = []
+  dailyTasks = useSelector(state => state.dailyTasks)
+
+  useEffect(() => {
+    const dailyTasksInStorage = window.localStorage.getItem('dailyTasks');
+    console.log(JSON.parse(dailyTasksInStorage));
+    if (dailyTasksInStorage) {
+      dailyTasks = JSON.parse(dailyTasksInStorage)
+    }
+  }, [dispatch])
 
   const randomize = (array) => {
     const random = Math.floor(Math.random() * array.length)
@@ -34,10 +44,7 @@ const DailyTaskPage = () => {
     array.forEach(i => {
       const cat = selection[i]
       if (cat === "Any") {
-        const test = tasks.filter(task => !selectedTasks.includes(task))
-        const allTasks = [].concat.apply([], categories.map(i => i.tasks))
-          .filter(i => !selectedTasks.includes(i))
-          
+        const allTasks = tasks.filter(task => !selectedTasks.includes(task))
 
         task = randomize(allTasks)
         selectedTasks.push(task)
@@ -55,14 +62,14 @@ const DailyTaskPage = () => {
 
   useEffect(() => {
     if (dailyTasks.length === 0) {
-    dispatch({type:'SET_DAILY_TASKS', data:selectedTasks})
+    dispatch(setDailyTasks(selectedTasks))
     }
   }, [dispatch])
 
   return (
     <List>
       {dailyTasks.map(i => 
-    <TaskDetails key={i} task={i} />)}
+    <TaskDetails key={i.name} task={i} />)}
     </List>
   )
 }
