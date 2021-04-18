@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import NumberForm from './NumberForm'
 import RandomizeButton from './RandomizeButton'
-import TaskTypeSelection from './TaskTypeSelection'
+import AddTaskBox from './TaskTypeSelection'
 
 const SelectionPage = () => {
   const numberOfTasks = useSelector(state => parseInt(state.numberOfTasks))
@@ -11,7 +11,7 @@ const SelectionPage = () => {
   let a = []
   let i;
   for (i=0; i<numberOfTasks; i++) {
-    a.push(<TaskTypeSelection key={i} index={i} />)
+    a.push(<AddTaskBox key={i} index={i} />)
   }
   /*
   const verifySelection = () => {

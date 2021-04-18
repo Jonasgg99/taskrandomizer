@@ -24,6 +24,10 @@ export const completeTask = (data) => {
 const dailyTasksReducer = (state = [], action) => {
   switch(action.type) {
     case 'ADD_DAILYTASK':
+      const newTaskList = [...state, action.data]
+      window.localStorage.setItem(
+        'dailyTasks', JSON.stringify(newTaskList)
+      )
       return [...state, action.data]
     case 'SET_DAILY_TASKS':
       const initTasks = action.data.map(task => ({...task, completed:false}))

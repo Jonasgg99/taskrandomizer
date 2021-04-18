@@ -65,12 +65,19 @@ const DailyTaskPage = () => {
     dispatch(setDailyTasks(selectedTasks))
     }
   }, [dispatch])
+  
+  const handleClick = () => {
+    localStorage.clear()
+  }
 
   return (
+    <div>
     <List>
       {dailyTasks.map(i => 
     <TaskDetails key={i.name} task={i} />)}
     </List>
+    <button onClick={handleClick}>reset</button>
+    </div>
   )
 }
 

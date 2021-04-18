@@ -8,6 +8,7 @@ import {
   Switch, Route
 } from "react-router-dom"
 import DailyTaskPage from './components/DailyTaskPage'
+import MainPage from './components/MainPage'
 import { setDailyTasks } from './reducers/dailyTasksReducer'
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
     <Container>
       <Router>
         <Switch>
+          <Route path="/test">
+            <MainPage />
+          </Route>
           <Route path="/daily">
             <DailyTaskPage />
           </Route>
