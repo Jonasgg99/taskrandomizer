@@ -13,11 +13,15 @@ import { setDailyTasks } from './reducers/dailyTasksReducer'
 import { useQuery } from '@apollo/client'
 import { ALL_TASKS } from './graphql/queries'
 
+import BottomNav from './components/BottomNav'
+
+import TaskManager from './components/TaskManager'
+
 function App() {
   const dispatch = useDispatch()
 
-  const test = useQuery(ALL_TASKS)
-    console.log(test.data);
+  const allTasks = useQuery(ALL_TASKS)
+
   useEffect(() => {
     const dailyTasks = window.localStorage.getItem('dailyTasks');
     if (dailyTasks) {
@@ -25,10 +29,17 @@ function App() {
     }
   }, [dispatch])
 
+  if (allTasks.loading) {
+    return <div></div>
+  }
+
   return (
     <Container>
       <Router>
         <Switch>
+          <Route path="/manage">
+            <TaskManager tasks={allTasks.data.allTasks} />
+          </Route>
           <Route path="/test">
             <MainPage />
           </Route>
@@ -39,7 +50,12 @@ function App() {
             <SelectionPage />
           </Route>
         </Switch>
+
+        <BottomNav />
+
       </Router>
+
+    
     </Container>
   );
 }

@@ -17,7 +17,6 @@ const DailyTaskPage = () => {
 
   useEffect(() => {
     const dailyTasksInStorage = window.localStorage.getItem('dailyTasks');
-    console.log(JSON.parse(dailyTasksInStorage));
     if (dailyTasksInStorage) {
       dailyTasks = JSON.parse(dailyTasksInStorage)
     }
