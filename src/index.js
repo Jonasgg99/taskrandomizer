@@ -4,12 +4,23 @@ import App from './App';
 import { Provider } from 'react-redux'
 import store from './store'
 
+import { ApolloClient, HttpLink, InMemoryCache, ApolloProvider } from '@apollo/client'
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: 'http://localhost:4000',
+  })
+})
+
 store.subscribe(() => console.log(store.getState()))
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

@@ -10,10 +10,14 @@ import {
 import DailyTaskPage from './components/DailyTaskPage'
 import MainPage from './components/MainPage'
 import { setDailyTasks } from './reducers/dailyTasksReducer'
+import { useQuery } from '@apollo/client'
+import { ALL_TASKS } from './graphql/queries'
 
 function App() {
   const dispatch = useDispatch()
 
+  const test = useQuery(ALL_TASKS)
+    console.log(test.data);
   useEffect(() => {
     const dailyTasks = window.localStorage.getItem('dailyTasks');
     if (dailyTasks) {
