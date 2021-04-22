@@ -6,19 +6,37 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { List } from '@material-ui/core'
+import AddCategoryPopup from './AddCategoryPopup'
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { CREATE_TASK } from '../graphql/mutations'
-import { ALL_TASKS } from '../graphql/queries'
+import { ALL_CATEGORIES, ALL_TASKS } from '../graphql/queries'
+import AlertDialog from './AlertDialog'
 
-const TaskManager = ({tasks}) => {
+const TaskManager = ({tasks, categories}) => {
   const [category, setCategory] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [newTaskName, setNewTaskName] = useState('')
+  const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false)
+
+  console.log(categories);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (newCat) => {
+    setCategory(newCat)
+    setOpen(false);
+  };
 
   const [createTask] = useMutation(CREATE_TASK, {
     refetchQueries: [ { query: ALL_TASKS } ]
   })
+
   const allCategories = useSelector(state => state.categories)
 
   const tasksToShow = tasks.filter(task => task.category === category)
@@ -30,6 +48,10 @@ const TaskManager = ({tasks}) => {
     }
   }, [])
 
+  const confirmDeleteCategory = () => {
+    console.log('deleting ', category);
+  }
+
   return (
     <div>
       <FormControl variant="outlined" margin="normal">
@@ -40,12 +62,16 @@ const TaskManager = ({tasks}) => {
             native
             value={category}
             onChange={(event) => {
-              setCategory(event.target.value)
-              window.localStorage.setItem(
-                'manageCategory', JSON.stringify(event.target.value)
-              )
-              setShowForm(false)
-              setNewTaskName('')
+              if (event.target.value === "Add") {
+                handleClickOpen()
+              } else {
+                setCategory(event.target.value)
+                window.localStorage.setItem(
+                  'manageCategory', JSON.stringify(event.target.value)
+                )
+                setShowForm(false)
+                setNewTaskName('')
+              }
             }}
             label="Category"
             inputProps={{
@@ -54,13 +80,16 @@ const TaskManager = ({tasks}) => {
             }}
           >
             <option value="" />
-            {allCategories.map(category => 
+            {categories.map(category => 
                 <option key={category.name} value={category.name}>{category.name}</option>
             )}
             <option value="Add">Add Category...</option>
 
           </Select>
         </FormControl>
+        <IconButton color="primary" onClick={() => {setOpenAlert(true)}} >
+          <DeleteIcon />
+        </IconButton>
         <List>
         {tasksToShow.map(task =>
           <li key={task.name}>{task.name}</li>  
@@ -88,6 +117,12 @@ const TaskManager = ({tasks}) => {
         </form>
         : <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>Add new task</Button>
         }
+        <AlertDialog 
+          open={openAlert}
+          confirm={confirmDeleteCategory}
+          cancel={() => {setOpenAlert(false)}}
+          content={ { title:`Delete ${category}?` } } />
+        <AddCategoryPopup open={open} handleClose={handleClose} />
     </div>
 
   )

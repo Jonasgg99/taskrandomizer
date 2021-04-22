@@ -6,8 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeSelection } from '../reducers/selectionReducer'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import addDailyTask from '../reducers/dailyTasksReducer'
 import CasinoIcon from '@material-ui/icons/Casino'
+import { useQuery } from '@apollo/client'
+import { ALL_TASKS, ALL_CATEGORIES } from '../graphql/queries';
 
 
 const AddTaskBox = (props) => {
@@ -15,6 +16,8 @@ const AddTaskBox = (props) => {
   const selection = useSelector(state => state.selection[props.index])
   const tasks = useSelector(state => state.tasks)
   const dailyTasks = useSelector(state => state.dailyTasks)
+  const allTasks = useQuery(ALL_TASKS).data.allTasks
+  const allCategories = useQuery(ALL_CATEGORIES).data.allCategories
 
   const handleChange = (event) => {
     if (event.target.value === "Add") {
@@ -34,7 +37,7 @@ const AddTaskBox = (props) => {
   }
 
   const onClick = () => {
-    let possibleTasks = tasks.filter(task => 
+    let possibleTasks = allTasks.filter(task => 
       !dailyTasks.map(a => a.name).includes(task.name))
   
       if (selection !== "Any") {
@@ -64,7 +67,7 @@ const AddTaskBox = (props) => {
           }}
         >
           <option value="Any">Any</option>
-          {categories.map(category => 
+          {allCategories.map(category => 
               <option key={category.name} value={category.name}>{category.name}</option>
           )}
           <option value="Add">Add Category...</option>

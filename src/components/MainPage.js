@@ -6,7 +6,7 @@ import List from '@material-ui/core/List'
 
 import AddTaskBox from './AddTaskBox'
 
-const MainPage = () => {
+const MainPage = ({tasks, categories}) => {
   const dailyTasks = useSelector(state => state.dailyTasks)
 
   return (
@@ -16,7 +16,7 @@ const MainPage = () => {
           {dailyTasks.map(i => 
             <TaskDetails key={i.name} task={i} />)}
         </List>
-        <AddTaskBox index={0}/>
+        <AddTaskBox index={0} />
       </Box>
     </div>
   )

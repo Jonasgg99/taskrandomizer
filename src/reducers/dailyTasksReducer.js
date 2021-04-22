@@ -30,15 +30,17 @@ const dailyTasksReducer = (state = [], action) => {
       )
       return [...state, action.data]
     case 'SET_DAILY_TASKS':
-      const initTasks = action.data.map(task => ({...task, completed:false}))
+      const initTasks = action.data
       window.localStorage.setItem(
         'dailyTasks', JSON.stringify(initTasks))
       return initTasks
     case 'COMPLETE_TASK':
       const newState = state.map(task => 
         task.name === action.data.name
-        ? {...task, completed: true}
+        ? {...task, completed: new Date().getDate()}
         : task)
+        window.localStorage.setItem(
+          'dailyTasks', JSON.stringify(newState))
       return newState
     default:
       return state

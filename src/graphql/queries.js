@@ -9,3 +9,12 @@ query {
 }
 `
 
+export const ALL_CATEGORIES = gql`
+query {
+  allCategories {
+    name
+  }
+}
+`
+
+

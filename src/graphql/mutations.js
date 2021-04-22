@@ -10,3 +10,13 @@ mutation createTask($name: String!, $category: String) {
     category
   }
 }`
+
+export const CREATE_CATEGORY = gql`
+mutation createCategory($name: String!) {
+  addCategory(
+    name:$name
+  ) {
+    name
+  }
+}
+`
