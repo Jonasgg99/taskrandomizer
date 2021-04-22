@@ -6,9 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeSelection } from '../reducers/selectionReducer'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import AddIcon from '@material-ui/icons/Add';
 import CasinoIcon from '@material-ui/icons/Casino'
 import { useQuery } from '@apollo/client'
 import { ALL_TASKS, ALL_CATEGORIES } from '../graphql/queries';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 
 
 const AddTaskBox = (props) => {
@@ -18,6 +25,8 @@ const AddTaskBox = (props) => {
   const dailyTasks = useSelector(state => state.dailyTasks)
   const allTasks = useQuery(ALL_TASKS).data.allTasks
   const allCategories = useQuery(ALL_CATEGORIES).data.allCategories
+
+  let possibleTasks = []
 
   const handleChange = (event) => {
     if (event.target.value === "Add") {
@@ -36,19 +45,22 @@ const AddTaskBox = (props) => {
     return selectedEntry
   }
 
+  possibleTasks = allTasks.filter(task => 
+    !dailyTasks.map(a => a.name).includes(task.name))
+
+    if (selection !== "Any") {
+      possibleTasks = possibleTasks.filter(task => task.category === selection)
+    }
+    
+
   const onClick = () => {
-    let possibleTasks = allTasks.filter(task => 
-      !dailyTasks.map(a => a.name).includes(task.name))
-  
-      if (selection !== "Any") {
-        possibleTasks = possibleTasks.filter(task => task.category === selection)
-      }
       
       const task = randomize(possibleTasks)
     if (task) {
       dispatch({type:'ADD_DAILYTASK', data:task})
     }
   }
+  console.log(possibleTasks);
 
   return (
     <Box>
@@ -79,6 +91,16 @@ const AddTaskBox = (props) => {
       size="large"
       startIcon={<CasinoIcon />}
       onClick = {onClick}></Button>
+
+      <List dense={true}>
+        {possibleTasks.map(task =>
+          <ListItem key={task.name}>
+            <ListItemText
+              primary={task.name}
+            />
+            <IconButton onClick={()=> {dispatch({type:'ADD_DAILYTASK', data:task})}}><AddIcon /></IconButton>
+          </ListItem>)}
+      </List>
     </Box>
     
   )
