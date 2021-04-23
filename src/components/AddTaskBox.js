@@ -60,7 +60,6 @@ const AddTaskBox = (props) => {
       dispatch({type:'ADD_DAILYTASK', data:task})
     }
   }
-  console.log(possibleTasks);
 
   return (
     <Box>
@@ -92,13 +91,15 @@ const AddTaskBox = (props) => {
       startIcon={<CasinoIcon />}
       onClick = {onClick}></Button>
 
-      <List dense={true}>
+      <List dense>
         {possibleTasks.map(task =>
+        
           <ListItem key={task.name}>
+            <IconButton size="small" color="primary" onClick={()=> {dispatch({type:'ADD_DAILYTASK', data:task})}}><AddIcon /></IconButton>
             <ListItemText
+              onClick={()=> {dispatch({type:'ADD_DAILYTASK', data:task})}}
               primary={task.name}
             />
-            <IconButton onClick={()=> {dispatch({type:'ADD_DAILYTASK', data:task})}}><AddIcon /></IconButton>
           </ListItem>)}
       </List>
     </Box>
@@ -107,3 +108,4 @@ const AddTaskBox = (props) => {
 }
 
 export default AddTaskBox
+//Add parts to tasks and render down arrow for these
